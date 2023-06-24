@@ -113,6 +113,16 @@ const Cart = () => {
         window.location.reload(true)
     }
 
+    const deleteProduct = (id) => {
+        // localStorage.getItem("cart");
+        let cart = JSON.parse(localStorage.getItem("cart"));
+        let index = cart.findIndex(product => product.id === id);
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        localStorage.setItem("cartLength", cart.length);
+        window.location.reload(true);
+    }
+
     const onFinish = async (values) => {
         console.log(values.users);
         let tabs = [];
@@ -226,6 +236,14 @@ const Cart = () => {
                         {(record.price * record.quantity).toLocaleString('vi', { style: 'currency', currency: 'VND' })}
                     </div>
                 </div >
+            ),
+        },
+        {
+            title: 'Xóa',
+            dataIndex: '_id',
+            key: 'delete',
+            render: (text, record) => (
+                        <Button shape="circle" icon={<DeleteOutlined />} danger onClick={() => deleteProduct(text)}/>
             ),
         },
     ];
